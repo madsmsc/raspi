@@ -1,0 +1,24 @@
+body {
+    background: #ddd;
+    color: #333;
+    font-family: monospace;
+    font-size: x-large;
+    padding-left: 20px;
+    -webkit-text-size-adjust: none;
+}
+
+h1 {
+    border-bottom: 2px solid #000;
+}
+
+a:hover {
+    background-color: #eee !important;
+}
+
+a, a:link, a:visited, a:focus, a:active {
+    color: #55f;
+    background-color: #ddd;
+    text-decoration: none;
+    border: 1px solid #555;
+    padding: 5px;
+}
