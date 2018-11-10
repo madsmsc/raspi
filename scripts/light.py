@@ -20,7 +20,7 @@ def run():
     GetDateTime = datetime.datetime.now().strftime(dt)
     LDRReading = RCtime(3)
     t = RCtime(3)
-    fo = open("/home/pi/app/scripts/foo.txt", "wb")
+    fo = open("/home/pi/raspi/scripts/foo.txt", "wb")
     fo.write(GetDateTime)
     LDRReading = str(LDRReading)
     fo.write("\n")

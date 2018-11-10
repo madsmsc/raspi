@@ -1,8 +1,7 @@
 body {
     background: #ddd;
-    color: #333;
     font-family: monospace;
-    font-size: x-large;
+    font-size: 20px;
     padding-left: 20px;
     -webkit-text-size-adjust: none;
 }
@@ -16,7 +15,8 @@ a:hover {
 }
 
 a, a:link, a:visited, a:focus, a:active {
-    color: #55f;
+    font-size: 18px;			   
+    color: red; 
     background-color: #ddd;
     text-decoration: none;
     border: 1px solid #555;

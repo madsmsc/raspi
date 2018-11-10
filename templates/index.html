@@ -2,23 +2,33 @@
   <head>
     <title>my raspi</title>
     <link rel="stylesheet" href="/static/style.css"/>
-    <meta name="viewport"
-	  content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
-  <body>
-    <h1>my raspi</h1>
-    <br/>
-    <a href="/on">on</a>
-    <br/><br/>
-    <a href="/off">off</a>
-    <br/><br/>
-    <a href="/blinkOn">blink on</a>
-    <br/><br/>
-    <a href="/blinkOff">blink off</a>
-    <br/><br/>
-    <a href="/temp">get temp</a>  {{ t }}
-    <br/><br/>
-    <a href="/light">get light</a>  {{ l }}
-    <br/>
-    
-  </body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <body>
+      <h1>my raspi</h1>
+      
+      <table>
+	<tr>
+	  <td style="width: 150px; border: 1px solid black; padding: 5px; padding-left: 10px;">
+	    <br/>
+	    <a href="/on">on</a>
+	    <br/><br/>
+	    <a href="/off">off</a>
+	    <br/><br/>
+	    <a href="/blinkOn">blink on</a>
+	    <br/><br/>
+	    <a href="/blinkOff">blink off</a>
+	    <br/><br/>
+	    <a href="/temp">get temp</a>  {{ t }}
+	    <br/><br/>
+	    <a href="/light">get light</a>  {{ l }}
+	    <br/><br/>
+	  </td>
+	  <td style="width: 700px; height: 500px; border: 1px solid black; padding: 10px;">
+	    <iframe style="width: 100%; height: 100%; border: none;"
+	       src="http://192.168.87.105:8080/static_simple.html">
+	    </iframe>
+	  </td>
+	</tr>
+      </table>
+    </body>
 </html>
