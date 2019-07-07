@@ -16,7 +16,6 @@ def run():
 
 def doRun():
     global keepGoing
-    GPIO.cleanup()
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(17, GPIO.OUT)
@@ -29,6 +28,7 @@ def doRun():
             sleep(0.5)
             GPIO.output(27, GPIO.LOW) # blue off
             GPIO.output(17, GPIO.HIGH) # red on
+            GPIO.cleanup()
             sleep(0.5)
             
     except KeyboardInterrupt:
