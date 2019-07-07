@@ -17,19 +17,13 @@ def run():
     while(True):
         f = open("db.txt", "a+")
         GPIO.setmode(GPIO.BCM)
-        dt = "%Y-%m-%d %H:%M:%S"
-        GetDateTime = datetime.datetime.now().strftime(dt)
         LDRReading = RCtime(3)
         t = RCtime(3)
-        fo = open("/home/pi/raspi/services/temp.txt", "wb")
-        fo.write(GetDateTime)
-        LDRReading = str(LDRReading)
-        fo.write("\n")
-        fo.write(LDRReading)
-        fo.close
         GPIO.cleanup()
-        f.write(str(t)+'\n')
+        d = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+        s = '{"v":"' + str(t) + '", "d":"' + d + '"}'
+        f.write(str(t))
         f.close()
-        sleep(10)
-
+        sleep(60*30)
+        
 run()

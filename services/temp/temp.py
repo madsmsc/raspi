@@ -1,4 +1,5 @@
 import glob
+import datetime
 from time import sleep
 
 baseDir = '/sys/bus/w1/devices/'
@@ -26,8 +27,10 @@ def run():
     while(True):
         f = open("db.txt","a+")
         t = readTemp()
-        f.write(str(t)+'\n')
+        d = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+        s = '{"v":"' + str(t) + '", "d":"' + d + '"}'
+        f.write(str(t))
         f.close()
-        sleep(10)
+        sleep(60*30)
 
 run()
