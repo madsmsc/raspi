@@ -1,1 +1,0 @@
-ps -Af | grep python
