@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for
-import os, json
+import os, json, datetime
 
 NO_SCRIPTS = 'Couldn\'t import scripts - Not running on raspi.'
 
@@ -85,33 +85,45 @@ def readLightDB():
 def string2json(filename):
     f = open(filename, "r")
     s = '['
+    d = datetime.datetime.now().strftime('%Y-%m-%d')
     for line in f.readlines():
-        s += line.replace('\n', '') + ','
-    s = s[:-1] + ']'
+        if d in line:
+            s += line.replace('\n', '')
+    s = s.replace('}', '},')
+    if len(s) > 5:
+        s = s[:-1]
+    s += ']'
+    print('JSON: '+s)
     f.close()
-    print('JSON: ' + s)
     j = json.loads(s)
     return j
     
 
 def readServices():
-    CMD = "ps -Af | grep python | cut -d ' ' -f 22 > temp.txt"
+    CMD = "ps -Af | grep python"
+    """ | cut -d ' ' -f 22 > temp.txt" """
     status = os.system(CMD)
     print('services [status='+str(status)+']')
     s = ''
     skip = ['--color=auto', 'ps', '']
-    with open ('temp.txt', 'r') as fd:
+    with open ('services.txt', 'r') as fd:
         for line in fd:
-            line = line.strip()
+            print('service: '+line)
             if line in skip:
                 continue
-            s += '[' + line + '] '
+            s += '[' + line.strip() + '] '
     fd.close();
     return s
 
 def readParams():
-    return {'c': readTempDB()[0]['v'].split('.')[0],
-            'lm': readLightDB()[1]['v'].split('.')[0],
+    c = readTempDB()
+    if len(str(c)) > 5:
+        c = c[0]['v'].split('.')[0]
+    l = readLightDB()
+    if len(str(l)) > 5:
+        l = l[0]['v'].split('.')[0]
+    return {'c': c,
+            'lm': l,
             'ser': readServices()}
 
 @app.errorhandler(404)

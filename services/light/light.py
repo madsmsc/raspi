@@ -22,7 +22,7 @@ def run():
         GPIO.cleanup()
         d = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
         s = '{"v":"' + str(t) + '", "d":"' + d + '"}'
-        f.write(str(t))
+        f.write(s)
         f.close()
         sleep(60*30)
         
