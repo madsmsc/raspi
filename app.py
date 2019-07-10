@@ -49,22 +49,27 @@ def routeBlinkOff():
 @app.route('/temp/')
 def routeTemp():
     print('get temp')
-    return render_template('chart.html',
-                           values=readTempDB(),
-                           header="temp",
-                           stepSize=1,
-                           chartMin=20,
-                           chartMax=30)
+    params = {'values': readTempDB(),
+              'header': 'temp',
+              'stepSize': 1,
+              'chartMin': 20,
+              'chartMax': 30,
+              'time': timeString() }
+    return render_template('chart.html', **params);
 
 @app.route("/light/")
 def routeChart():
     print('get light')
-    return render_template('chart.html',
-                           values=readLightDB(),
-                           header="light",
-                           stepSize=5,
-                           chartMin=120,
-                           chartMax=130)
+    params = {'values': readLightDB(),
+              'header': 'light',
+              'stepSize': 5,
+              'chartMin': 120,
+              'chartMax': 130,
+              'time': timeString() }
+    return render_template('chart.html', **params)
+
+def timeString():
+    return datetime.datetime.now().strftime('%Y%m%d%H%M%S')
             
 @app.route('/cam/')
 def routeCam():
@@ -115,17 +120,6 @@ def readServices():
     fd.close();
     return s
 
-def readParams():
-    c = readTempDB()
-    if len(str(c)) > 5:
-        c = c[0]['v'].split('.')[0]
-    l = readLightDB()
-    if len(str(l)) > 5:
-        l = l[0]['v'].split('.')[0]
-    return {'c': c,
-            'lm': l,
-            'ser': readServices()}
-
 @app.errorhandler(404)
 def pageNotFound(error):
     return render_template('pageNotFound.html'), 404
@@ -133,7 +127,11 @@ def pageNotFound(error):
 @app.route('/index')
 @app.route('/')
 def index():
-    return render_template('index.html', **readParams())
+    params = {'c': readTempDB()[0]['v'].split('.')[0],
+              'lm': readLightDB()[1]['v'].split('.')[0],
+              'ser': readServices(),
+              'time': timeString() }
+    return render_template('index.html', **params)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
