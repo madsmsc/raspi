@@ -103,7 +103,6 @@ def string2json(filename):
     j = json.loads(s)
     return j
     
-
 def readServices():
     CMD = "ps -Af | grep python"
     """ | cut -d ' ' -f 22 > temp.txt" """
@@ -132,6 +131,10 @@ def index():
               'ser': readServices(),
               'time': timeString() }
     return render_template('index.html', **params)
+
+@app.route('/clock')
+def routeClock():
+    return render_template('clock.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
