@@ -2,7 +2,7 @@
     <head>
 	<script type="text/javascript">
 	    function back() {
-		console.log("go back to the main page");
+	        window.location.href = "/index";
 	    }
 	    var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -39,18 +39,19 @@
 	    }
 	</script>
 	<style>
-	    * {
-		background-color: #000;
-		color: #fff;
-	    }
-	    .time {
-		font-size: 60;
-		font-weght: bold;
-		padding-top: 200px;
-	    }
-	    .date {
-		font-size: 30;
-	    }
+	  * {
+	  background-color: #000;
+	  color: #fff;
+	  cursor: none;
+	  }
+	  .time {
+	  font-size: 60;
+	  font-weght: bold;
+	  padding-top: 200px;
+	  }
+	  .date {
+	  font-size: 30;
+	  }
 	</style>
     </head>
     <body onload="updateClock(); setInterval('updateClock()', 1000 )">

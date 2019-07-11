@@ -2,11 +2,14 @@ from flask import Flask, render_template, redirect, url_for, jsonify
 
 app = Flask(__name__)
 
+def timeString():
+    return datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+
 def readTempDB():
-    return string2json('services/temp/db.txt')
+    return string2json('../temp/db.txt')
 
 def readLightDB():
-    return string2json('services/light/db.txt')
+    return string2json('../light/db.txt')
 
 def string2json(filename):
     f = open(filename, "r")
@@ -36,7 +39,7 @@ def routeTemp():
     return jsonify(params)
 
 @app.route("/light")
-def routeChart():
+def routeLight():
     print('get light')
     params = {'values': readLightDB(),
               'header': 'light',
@@ -46,7 +49,15 @@ def routeChart():
               'time': timeString() }
     return jsonify(params)
 
+@app.route("/lightNow")
+def routeLightNow():
+    return jsonify(readLightDB()[0])
+
+@app.route("/tempNow")
+def routeTempNow():
+    return jsonify(readTempDB()[0])
+
 # fix some way of seeing other weeks, seeing months, years, etc.
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    app.run(debug=True, host='0.0.0.0', port=5002)
