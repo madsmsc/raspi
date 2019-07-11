@@ -16,15 +16,13 @@ LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i "input_file.so -f /tmp/stream -n
 connect to http://localhost:8080 for the stream
 and connect to http://localhost:5000 for the web server
 
-* check partition size and usage
-$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/root       7.2G  5.1G  1.8G  74% /
-devtmpfs        434M     0  434M   0% /dev
-tmpfs           438M     0  438M   0% /dev/shm
-tmpfs           438M   17M  422M   4% /run
-tmpfs           5.0M  4.0K  5.0M   1% /run/lock
-tmpfs           438M     0  438M   0% /sys/fs/cgroup
-/dev/mmcblk0p1   41M   22M   20M  53% /boot
-tmpfs            88M     0   88M   0% /run/user/1000
+run app.py webserver to serve html.
+
+run all microservices in services.
+
+eg. webserver on :5000
+
+light service on :5001
+
+chart service on :5002
 

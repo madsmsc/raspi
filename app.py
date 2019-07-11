@@ -1,50 +1,36 @@
 from flask import Flask, render_template, redirect, url_for
 import os, json, datetime
 
-NO_SCRIPTS = 'Couldn\'t import scripts - Not running on raspi.'
-
-try:
-    from scripts import on, off, blink
-except ImportError:
-    print(NO_SCRIPTS)
-
 app = Flask(__name__)
+LED = '127.0.0.1:5001/'
 
 @app.route('/on')
 def routeOn():
     print('led on')
-    try:
-        on.run()
-    except:
-        print(NO_SCRIPTS)
-    return redirect(url_for('index'))
+    with urlopen(LED + 'on') as r:
+        text = r.read()
+    print('response=' + r.read())
 
 @app.route('/off')
 def routeOff():
     print('led off')
-    try:
-        off.run()
-    except:
-        print(NO_SCRIPTS)
-    return redirect(url_for('index'))
+    with urlopen(LED + 'off') as r:
+        text = r.read()
+    print('response=' + r.read())
 
 @app.route('/blinkOn')
 def routeBlinkOn():
     print('led blink on')
-    try:
-        blink.run()
-    except:
-        print(NO_SCRIPTS)
-    return redirect(url_for('index'))
+    with urlopen(LED + 'off') as r:
+        text = r.read()
+    print('response=' + r.read())
 
 @app.route('/blinkOff')
 def routeBlinkOff():
     print('led blink off')
-    try:
-        blink.stop()
-    except:
-        print(NO_SCRIPTS)
-    return redirect(url_for('index'))
+    with urlopen(LED + 'off') as r:
+        text = r.read()
+    print('response=' + r.read())
 
 @app.route('/temp/')
 def routeTemp():
@@ -134,5 +120,5 @@ def index():
     return render_template('index.html', **params)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, port=5000)
 
