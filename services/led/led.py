@@ -1,7 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, jsonify
-import RPi.GPIO as GPIO
 from time import sleep
 from threading import Thread
+try:
+    import RPi.GPIO as GPIO
+except:    
+    print('couldn\'t load RPi - probably not running on raspi')
 
 app = Flask(__name__)
 keepGoing = False
@@ -38,7 +41,7 @@ def runBlink():
             GPIO.cleanup()
             sleep(0.5)            
     except KeyboardInterrupt:
-        print " quit!"
+        print('quit!')
         GPIO.cleanup()
 
 @app.route('/on')

@@ -1,94 +1,63 @@
 from flask import Flask, render_template, redirect, url_for
-from urllib.request import urlopen
-import os, json, datetime
+import json, datetime, requests
 
 app = Flask(__name__)
-IP = 'http://192.168.87.105:'
+#IP = 'http://192.168.87.105'
+IP = 'http://localhost'
+API_LED = IP + ':5001'
+API_CHART = IP + ':5002'
+API_OS = IP + ':5003'
 
 @app.route('/on')
 def routeOn():
-    print('led on')
-    with urlopen(IP + '5001/on') as r:
-        res = r.read()
-    print('res=' + res)
+    res = requests.get(API_LED + '/on')
+    print('res=' + res.text)
 
 @app.route('/off')
 def routeOff():
-    print('led off')
-    with urlopen(IP + '5001/off') as r:
-        res = r.read()
-    print('res=' + res)
+    res = requests.get(API_LED + '/off')
+    print('res=' + res.text)
 
 @app.route('/blinkOn')
 def routeBlinkOn():
-    print('led blink on')
-    with urlopen(IP + '5001/off') as r:
-        res = r.read()
-    print('res=' + res)
+    res = requests.get(API_LED + '/blinkOn')
+    print('res=' + res.text)
 
 @app.route('/blinkOff')
 def routeBlinkOff():
-    print('led blink off')
-    with urlopen(IP + '5001/off') as r:
-        res = r.read()
-    print('res=' + res)
+    res = requests.get(API_LED + '/blinkOff')
+    print('res=' + res.text)
 
-@app.route('/temp/')
+@app.route('/temp')
 def routeTemp():
-    print('get temp')
-    with urlopen(IP + '5002/temp') as r:
-        res = r.read()    
-    params = res
-    """{'values': readTempDB(),
-              'header': 'temp',
-              'stepSize': 1,
-              'chartMin': 20,
-              'chartMax': 30,
-              'time': timeString() } 
-    """
-    return render_template('chart.html', **params);
+    res = requests.get(API_CHART + '/temp')
+    res = json.loads(res.text)
+    return render_template('chart.html', **res);
 
-@app.route("/light/")
+@app.route("/light")
 def routeChart():
-    print('get light')
-    with urlopen(IP + '5002/temp') as r:
-        res = r.read()
-    params = res
-    """
-    params = {'values': readLightDB(),
-              'header': 'light',
-              'stepSize': 5,
-              'chartMin': 120,
-              'chartMax': 130,
-              'time': timeString() }
-    """
-    return render_template('chart.html', **params)
-
-def timeString():
-    return datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    res = requests.get(API_CHART + '/light')
+    res = json.loads(res.text)
+    return render_template('chart.html', **res)
             
-@app.route('/cam/')
+@app.route('/cam')
 def routeCam():
-    print('get cam')
     return render_template('cam.html')
 
 @app.errorhandler(404)
 def pageNotFound(error):
     return render_template('pageNotFound.html'), 404
 
+@app.route('/services')
 @app.route('/index')
 @app.route('/')
 def index():
-    with urlopen(IP + '5002/tempNow') as r:
-        temp = r.read()
-    with urlopen(IP + '5002/lightNow') as r:
-        light = r.read()
-    with urlopen(IP + '5003/services') as r:
-        ser = r.read()
-    params = {'c': temp,
-              'lm': light,
-              'ser': ser,
-              'time': timeString() }
+    temp = requests.get(API_CHART + '/tempNow').text
+    light = requests.get(API_CHART + '/lightNow').text
+    ser = requests.get(API_OS + '/services').text
+    params = {'c': json.loads(temp)['v'],
+              'lm': json.loads(light)['v'],
+              'ser': json.loads(ser)}
     return render_template('index.html', **params)
 
 @app.route('/clock')

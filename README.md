@@ -2,7 +2,7 @@ run app.py webserver to serve html.
 
 run all microservices in services - eg.:
 * webserver on :5000
-* light services on :5001
+* led services on :5001
 * chart services on :5002
 * os services on :5003
 * stream services on :8080
