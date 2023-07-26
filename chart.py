@@ -1,16 +1,18 @@
-from flask import Flask, render_template, redirect, url_for, jsonify
 import json, datetime
 
-app = Flask(__name__)
+TIME_FORMAT = '%Y%m%d%H%M%S'
+TEMP_DB_FILE = 'temp_db.txt'
+LIGHT_DB_FILE = 'light_db.txt'
 
 def timeString():
-    return datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    now = datetime.datetime.now()
+    return now.strftime(TIME_FORMAT)
 
 def readTempDB():
-    return string2json('services/temp/db.txt')
+    return string2json(TEMP_DB_FILE)
 
 def readLightDB():
-    return string2json('services/light/db.txt')
+    return string2json(LIGHT_DB_FILE)
 
 def string2json(filename):
     f = open(filename, "r")
@@ -45,27 +47,10 @@ def lightParams():
             'chartMax': 130,
             'time': timeString() }
 
-@app.route('/temp')
-def routeTemp():
-    print('/temp')
-    return jsonify(tempParams())
+def lightNow():
+    return readLightDB()[0]
 
-@app.route("/light")
-def routeLight():
-    print('/light')
-    return jsonify(lightParams())
-
-@app.route("/lightNow")
-def routeLightNow():
-    print('/lightNow')
-    return jsonify(readLightDB()[0])
-
-@app.route("/tempNow")
-def routeTempNow():
-    print('/tempNow')
-    return jsonify(readTempDB()[0])
+def tempNow():
+    return readTempDB()[0]
 
 # fix some way of seeing other weeks, seeing months, years, etc.
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5002)

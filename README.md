@@ -1,11 +1,8 @@
-run app.py webserver to serve html.
+*run app.py webserver to serve html:
+python3 app.py
 
-run all microservices in services - eg.:
-* webserver on :5000
-* led services on :5001
-* chart services on :5002
-* os services on :5003
-* stream services on :8080
+* access the page at:
+http://localhost:5000/
 
 * running the camera app:
 https://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi

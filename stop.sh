@@ -1,1 +1,1 @@
-killall Python
+killall python3

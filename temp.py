@@ -2,9 +2,15 @@ import glob
 import datetime
 from time import sleep
 
-baseDir = '/sys/bus/w1/devices/'
-deviceFolder = glob.glob(baseDir + '28*')[0]
-deviceFile = deviceFolder + '/w1_slave'
+TIME_FORMAT = "%Y-%m-%d %H:%M"
+DB_FILE = "temp_db.txt"
+BASE_DIR = "/sys/bus/w1/devices/"
+
+try:
+    deviceFolder = glob.glob(BASE_DIR + '28*')[0]
+    deviceFile = deviceFolder + '/w1_slave'
+except:
+    print("face")
 
 def readTempRaw():
     f = open(deviceFile, 'r')
@@ -25,12 +31,14 @@ def readTemp():
 
 def run():
     while(True):
-        f = open("db.txt","a+")
+        f = open(DB_FILE,"a+")
         t = readTemp()
-        d = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
-        s = '{"v":"' + str(t) + '", "d":"' + d + '"}'
+        now = datetime.datetime.now()
+        d = now.strftime()
+        s = '{"v":"' + str(t)
+        s += '", "d":"' + d + '"}'
         f.write(s)
         f.close()
         sleep(60*30)
 
-run()
+# if sleep arg is ms, increase to 500 or 1000
